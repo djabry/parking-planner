@@ -6,6 +6,7 @@
 
 package org.datahack.parkingdb;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -179,6 +180,7 @@ public class BayEventTest {
          testBay.setZone(z);
          BayEvent bE = new BayEvent();
          
+         bE.setEventTime(Calendar.getInstance().getTime());
          bE.setBay(testBay);
          
          em.getTransaction().begin();
@@ -202,8 +204,8 @@ public class BayEventTest {
        
         em.getTransaction().begin();
         
-        em.remove(find);
-        em.remove(find1);
+        //em.remove(find);
+        //em.remove(find1);
         em.getTransaction().commit();
          
     }

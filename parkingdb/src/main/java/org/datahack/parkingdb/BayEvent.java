@@ -49,7 +49,7 @@ public class BayEvent implements Serializable {
     @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL) 
     private Bay bay;
     
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date eventTime;
 
     @Column
