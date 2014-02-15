@@ -11,6 +11,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,9 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Bay implements Location, Serializable{
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     
-    @Column
+
     @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     private Zone zone;
     @Column
@@ -63,6 +66,41 @@ public class Bay implements Location, Serializable{
      */
     public int getTotalSpaces() {
         return totalSpaces;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param zone the zone to set
+     */
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
+     * @param totalSpaces the totalSpaces to set
+     */
+    public void setTotalSpaces(int totalSpaces) {
+        this.totalSpaces = totalSpaces;
     }
     
     
