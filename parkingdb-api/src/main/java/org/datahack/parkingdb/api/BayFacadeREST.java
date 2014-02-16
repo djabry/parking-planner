@@ -6,19 +6,10 @@
 
 package org.datahack.parkingdb.api;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,7 +19,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.datahack.parkingdb.Bay;
-import org.datahack.parkingdb.Bay_;
 import org.datahack.parkingdb.ParkingDBUtils;
 
 /**
@@ -98,6 +88,8 @@ public class BayFacadeREST extends AbstractFacade<Bay> {
         return em;
     }
     
+    
+    
     @GET
     @Path("{lat1}/{lon1}/{lat2}/{lon2}")
     @Produces({"application/xml", "application/json"})
@@ -113,6 +105,17 @@ public class BayFacadeREST extends AbstractFacade<Bay> {
         
     }
     
+    
+    @GET
+    @Path("testfindinbox")
+    @Produces({"application/xml", "application/json"})
+    public List<Bay> testCase() {
+
+        return this.findAll();
+        //return this.findInBox(50.0, 52.0, -10.0, 10.0);
+        
+    }
+
     
     
     

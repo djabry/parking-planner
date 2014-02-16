@@ -100,6 +100,16 @@ public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
         return pZ;
         
     }
+    
+    @GET
+    @Path("testfindinbox")
+    @Produces({"application/xml", "application/json"})
+    public List<ParkingZone> testCase() {
+
+        return this.findAll();
+        //return this.findInBox(50.0, 52.0, -10.0, 10.0);
+        
+    }
 
     @Override
     protected EntityManager getEntityManager() {
