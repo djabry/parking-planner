@@ -9,6 +9,7 @@ package org.datahack.parkingdb.api;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,33 +19,33 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import org.datahack.parkingdb.Zone;
+import org.datahack.parkingdb.ParkingZone;
 
 /**
  *
  * @author djabry
  */
 @Stateless
-@Path("org.datahack.parkingdb.zone")
-public class ZoneFacadeREST extends AbstractFacade<Zone> {
+@Path("parkingzone")
+public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
     @PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em;
+    private EntityManager em;// = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
 
-    public ZoneFacadeREST() {
-        super(Zone.class);
+    public ParkingZoneFacadeREST() {
+        super(ParkingZone.class);
     }
 
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Zone entity) {
+    public void create(ParkingZone entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Zone entity) {
+    public void edit(@PathParam("id") Integer id, ParkingZone entity) {
         super.edit(entity);
     }
 
@@ -57,21 +58,21 @@ public class ZoneFacadeREST extends AbstractFacade<Zone> {
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
-    public Zone find(@PathParam("id") Integer id) {
+    public ParkingZone find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
-    public List<Zone> findAll() {
+    public List<ParkingZone> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
-    public List<Zone> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<ParkingZone> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

@@ -8,7 +8,8 @@
     <modules>
         <module>parkingdb</module>
     <module>parkingdb-api</module>
-  </modules>
+        <module>data-uploader</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -139,18 +139,7 @@ public class BayEventTest {
     /**
      * Test of getNumSPaces method, of class BayEvent.
      */
-    @Test
-    @Ignore
-    public void testGetNumSPaces() {
-        System.out.println("getNumSPaces");
-        BayEvent instance = new BayEvent();
-        int expResult = 0;
-        int result = instance.getNumSPaces();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+   
     /**
      * Test of setNumSPaces method, of class BayEvent.
      */
@@ -161,15 +150,15 @@ public class BayEventTest {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PARKING_PU");
         em = emf.createEntityManager();
          Bay testBay  = new Bay();
-         
+         testBay.setId(Integer.MAX_VALUE);
 
          testBay.setLatitude(51.0);
          testBay.setLongitude(0.0);
          Set<Bay> bays = new LinkedHashSet<Bay>();
          bays.add(testBay);
          
-         Zone z = new Zone();
-         
+         ParkingZone z = new ParkingZone();
+         z.setId(Integer.MAX_VALUE);
          z.setBays(bays);
          
          z.setLatitude(51.0);
@@ -177,9 +166,9 @@ public class BayEventTest {
          
          
          
-         testBay.setZone(z);
+         testBay.setParkingZone(z);
          BayEvent bE = new BayEvent();
-         
+         bE.setId(Long.MAX_VALUE);
          bE.setEventTime(Calendar.getInstance().getTime());
          bE.setBay(testBay);
          
@@ -188,7 +177,7 @@ public class BayEventTest {
          em.persist(bE);
          em.getTransaction().commit();
          
-        Zone find = em.find(Zone.class, z.getId());
+        ParkingZone find = em.find(ParkingZone.class, z.getId());
          
         if(find!=null){
             System.out.println("Zone successfuly persisted");

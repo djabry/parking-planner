@@ -28,7 +28,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -53,7 +52,7 @@ public class BayEvent implements Serializable {
     private Date eventTime;
 
     @Column
-    private int numSPaces;
+    private double estimatedSpaces;
     
     public Bay getBay(){
         return bay;
@@ -95,18 +94,20 @@ public class BayEvent implements Serializable {
     }
 
     /**
-     * @return the numSPaces
+     * @return the estimatedSPaces
      */
-    public int getNumSPaces() {
-        return numSPaces;
+    public double getEstimatedSpaces() {
+        return estimatedSpaces;
     }
 
     /**
-     * @param numSPaces the numSPaces to set
+     * @param estimatedSPaces the estimatedSPaces to set
      */
-    public void setNumSPaces(int numSPaces) {
-        this.numSPaces = numSPaces;
+    public void setEstimatedSPaces(double estimatedSPaces) {
+        this.estimatedSpaces = estimatedSPaces;
     }
+
+   
     
     
     

@@ -2,6 +2,22 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ *//*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ *//*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ *//*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ *//*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
 package org.datahack.parkingdb;
@@ -14,7 +30,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,10 +44,9 @@ public class Bay implements Location, Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    
 
     @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-    private Zone zone;
+    private ParkingZone parkingZone;
     @Column
     private double longitude;
     @Column
@@ -40,8 +54,8 @@ public class Bay implements Location, Serializable{
     @Column
     private int totalSpaces;
     
-    public Zone getZone(){
-        return zone; 
+    public ParkingZone getParkingZone(){
+        return parkingZone; 
     }
 
     @Override
@@ -76,10 +90,10 @@ public class Bay implements Location, Serializable{
     }
 
     /**
-     * @param zone the zone to set
+     * @param parkingZone the zone to set
      */
-    public void setZone(Zone zone) {
-        this.zone = zone;
+    public void setParkingZone(ParkingZone parkingZone) {
+        this.parkingZone = parkingZone;
     }
 
     /**

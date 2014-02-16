@@ -5,7 +5,9 @@
     <class>org.datahack.parkingdb.Bay</class>
     <class>org.datahack.parkingdb.BayEvent</class>
     <class>org.datahack.parkingdb.Tariff</class>
-    <class>org.datahack.parkingdb.Zone</class>
+    <class>org.datahack.parkingdb.ParkingZone</class>
+    <class>org.datahack.parkingdb.ParkingStreet</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://parkingdata.chwiixytzmrn.eu-west-1.rds.amazonaws.com:3306/parkingdb?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="parking"/>

@@ -9,6 +9,7 @@ package org.datahack.parkingdb.api;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,10 +26,10 @@ import org.datahack.parkingdb.Bay;
  * @author djabry
  */
 @Stateless
-@Path("org.datahack.parkingdb.bay")
+@Path("bay")
 public class BayFacadeREST extends AbstractFacade<Bay> {
     @PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em;
+    private EntityManager em; //= Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
 
     public BayFacadeREST() {
         super(Bay.class);
