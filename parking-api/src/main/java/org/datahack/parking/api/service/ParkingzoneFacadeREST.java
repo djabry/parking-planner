@@ -6,6 +6,7 @@
 
 package org.datahack.parking.api.service;
 
+import com.sun.net.httpserver.Headers;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -45,6 +47,7 @@ public class ParkingzoneFacadeREST extends AbstractFacade<Parkingzone> {
 
     @PUT
     @Path("{id}")
+    
     @Consumes({"application/xml", "application/json"})
     public void edit(@PathParam("id") Integer id, Parkingzone entity) {
         super.edit(entity);
@@ -59,6 +62,7 @@ public class ParkingzoneFacadeREST extends AbstractFacade<Parkingzone> {
     @GET
     @Path("{id}")
     @Produces({"application/xml", "application/json"})
+    
     public Parkingzone find(@PathParam("id") Integer id) {
         return super.find(id);
     }
@@ -71,13 +75,14 @@ public class ParkingzoneFacadeREST extends AbstractFacade<Parkingzone> {
     }
 
     @GET
+    
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
     public List<Parkingzone> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
     
-        @GET
+    @GET
     @Path("{lat1}/{lon1}/{lat2}/{lon2}")
     @Produces({"application/xml", "application/json"})
     public List<Parkingzone> findInBox(@PathParam("lat1") Double lat1, @PathParam("lon1") Double lon1,@PathParam("lat2") Double lat2,@PathParam("lon2") Double lon2) {

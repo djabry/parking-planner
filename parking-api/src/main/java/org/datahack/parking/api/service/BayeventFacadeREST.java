@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -80,6 +81,24 @@ public class BayeventFacadeREST extends AbstractFacade<Bayevent> {
     @Produces("text/plain")
     public String countREST() {
         return String.valueOf(super.count());
+    }
+    
+        @GET
+    @Path("nearest/{bayId}/{t}")
+    @Produces({"application/xml", "application/json"})
+    public Bayevent findNearest(@PathParam("id") Integer bayId,@PathParam("t") String tString) {
+        
+        String qString = "SELECT * FROM BAYEVENT b WHERE b.BAY_ID="+bayId+" AND b.EVENTTIME<="+tString+ " ORDER BY EVENTTIME DESC LIMIT 1";
+        Query q = em.createNativeQuery(qString,Bayevent.class);
+        
+        List<Bayevent> resultList = q.getResultList();
+        
+        if(!resultList.isEmpty()){
+            return resultList.get(0);
+        }
+        
+        return null;
+        
     }
 
     @Override

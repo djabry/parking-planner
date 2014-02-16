@@ -13,7 +13,6 @@ import org.apache.commons.io.FileUtils;
 import weka.classifiers.evaluation.NumericPrediction;
 import weka.classifiers.functions.GaussianProcesses;
 import weka.classifiers.timeseries.WekaForecaster;
-import weka.classifiers.timeseries.core.TSLagMaker;
 import weka.core.Instances;
 
 /**
@@ -25,7 +24,7 @@ import weka.core.Instances;
  * jcommon-1.0.14.jar (from the time series package lib directory)
  * jfreechart-1.0.13.jar (from the time series package lib directory)
  */
-public class TimeSeriesExample {
+public class BayExample {
 
   public static void main(String[] args) {
     try {
@@ -34,8 +33,8 @@ public class TimeSeriesExample {
         
         File output = File.createTempFile("tempWineData", "arff");
         output.deleteOnExit();
-        String dataFileName = "sample-data/parking344.arff";
-       URL resource = TimeSeriesExample.class.getResource("/"+dataFileName);
+        String dataFileName = "sample-data/wine.arff";
+       URL resource = BayExample.class.getResource("/"+dataFileName);
        FileUtils.copyURLToFile(resource, output);
        
       String pathToWineData = output.getPath();
@@ -48,13 +47,13 @@ public class TimeSeriesExample {
 
       // set the targets we want to forecast. This method calls
       // setFieldsToLag() on the lag maker object for us
-      forecaster.setFieldsToForecast("occupiedSpaces");
+      forecaster.setFieldsToForecast("Fortified,Dry-white");
 
       // default underlying classifier is SMOreg (SVM) - we'll use
       // gaussian processes for regression instead
       forecaster.setBaseForecaster(new GaussianProcesses());
 
-      forecaster.getTSLagMaker().setTimeStampField("eventTime"); // date time stamp
+      forecaster.getTSLagMaker().setTimeStampField("Date"); // date time stamp
       forecaster.getTSLagMaker().setMinLag(1);
       forecaster.getTSLagMaker().setMaxLag(12); // monthly data
 

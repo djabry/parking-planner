@@ -72,9 +72,16 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     public BayEvent findNearest(@PathParam("id") Integer bayId,@PathParam("t") String tString) {
         
         String qString = "SELECT * FROM BAYEVENT b WHERE b.BAY_ID="+bayId+" AND b.EVENTTIME<="+tString+ " ORDER BY EVENTTIME DESC LIMIT 1";
-        TypedQuery<BayEvent> q = em.createQuery(qString,BayEvent.class);
+        Query q = em.createNativeQuery(qString,BayEvent.class);
         
-        return q.getSingleResult();
+        List<BayEvent> resultList = q.getResultList();
+        
+        if(!resultList.isEmpty()){
+            return resultList.get(0);
+        }
+        
+        return null;
+        
     }
 
     @GET
