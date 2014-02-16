@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +20,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.datahack.parkingdb.Bay;
+import org.datahack.parkingdb.ParkingDBUtils;
 import org.datahack.parkingdb.ParkingZone;
 
 /**
@@ -29,7 +32,7 @@ import org.datahack.parkingdb.ParkingZone;
 @Path("parkingzone")
 public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
     //@PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
+    private EntityManager em= ParkingDBUtils.getEntityManager();
 
     public ParkingZoneFacadeREST() {
         super(ParkingZone.class);
@@ -81,6 +84,21 @@ public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
     @Produces("text/plain")
     public String countREST() {
         return String.valueOf(super.count());
+    }
+    
+    @GET
+    @Path("{lat1}/{lon1}/{lat2}/{lon2}")
+    @Produces({"application/xml", "application/json"})
+    public List<ParkingZone> findInBox(@PathParam("lat1") Double lat1, @PathParam("lon1") Double lon1,@PathParam("lat2") Double lat2,@PathParam("lon2") Double lon2) {
+
+        String qString = "SELECT * FROM PARKINGZONE b WHERE b.latitude>="+lat1+" AND b.latitude<="+lat2+" AND b.longitude>="+lon1+" AND b.longitude<="+lon2;
+        
+        TypedQuery<ParkingZone> q = em.createQuery(qString,ParkingZone.class);
+        
+        List<ParkingZone> pZ = q.getResultList();
+        
+        return pZ;
+        
     }
 
     @Override

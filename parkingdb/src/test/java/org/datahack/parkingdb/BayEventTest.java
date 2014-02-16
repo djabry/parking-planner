@@ -147,8 +147,7 @@ public class BayEventTest {
     public void testSetNumSPaces() {
          System.out.println("setNumSPaces");
        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PARKING_PU");
-        em = emf.createEntityManager();
+        em = ParkingDBUtils.getEntityManager();
          Bay testBay  = new Bay();
          testBay.setId(Integer.MAX_VALUE);
 

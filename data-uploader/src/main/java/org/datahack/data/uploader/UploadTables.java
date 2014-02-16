@@ -11,8 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +26,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.apache.commons.io.FileUtils;
 import org.datahack.parkingdb.Bay;
+import org.datahack.parkingdb.BayEvent;
 import org.datahack.parkingdb.ParkingStreet;
 import org.datahack.parkingdb.ParkingZone;
 
@@ -39,6 +45,7 @@ public class UploadTables {
         
         try {
             File output = File.createTempFile("WCC_ParkingStreets", "csv");
+            output.deleteOnExit();
             String csvName = "WCC_ParkingStreets.csv";
             URL resource = UploadTables.class.getResource("/"+csvName);
             FileUtils.copyURLToFile(resource, output);
@@ -106,13 +113,13 @@ public class UploadTables {
         } catch (IOException ex) {
             Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         
         //Uplad Bay data
         String csvName = "bay_table.csv";
         
         try {
             File output = File.createTempFile("bay_table", "csv");
+            output.deleteOnExit();
             URL resource = UploadTables.class.getResource("/"+csvName);
             FileUtils.copyURLToFile(resource, output);
             CSVReader reader = new CSVReader(new FileReader(output.getPath()));
@@ -215,6 +222,85 @@ public class UploadTables {
         } catch (IOException ex) {
             Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
+         try {
+            File output = File.createTempFile("bay_event_table", "csv");
+            output.deleteOnExit();
+            csvName = "bay_event_table.csv";
+            URL resource = UploadTables.class.getResource("/"+csvName);
+            FileUtils.copyURLToFile(resource, output);
+            CSVReader reader = new CSVReader(new FileReader(output.getPath()));
+            
+            //Headings
+            String[] str = reader.readNext();
+            em.getTransaction().begin();
+            int row = 0;
+            while(str!=null){
+                row++;
+                str= reader.readNext();
+                if(str!=null){
+                    
+                    if(str.length==4){
+                        
+                        BayEvent bE = new BayEvent();
+                        
+                        try{
+                            
+                        Integer id = Integer.parseInt(str[0]);
+                        Integer bayId = Integer.parseInt(str[1]);
+                        String eventTimeString = str[2];
+                        Double estimatedSpaces = Double.parseDouble(str[3]);
+                        
+                        bE.setId(id);
+                        
+                        Bay find = em.find(Bay.class, bayId);
+                        bE.setBay(find);
+                        
+                        
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                        java.util.Date d;
+
+                        d = df.parse(eventTimeString);
+
+                        bE.setEventTime(d);
+                        
+                        bE.setEstimatedSPaces(estimatedSpaces);
+                        
+                        em.persist(bE);
+                          
+                        }catch(NumberFormatException e){
+                            System.out.println("Failed to persist row "+row);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        if(row%1000==0){
+                            em.getTransaction().commit();
+                            em.clear();
+                            em.getTransaction().begin();
+                        }
+                        
+                        
+                    
+                    }
+                    
+                }
+                
+            }
+            
+            em.getTransaction().commit();
+            
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+        
         
         
         
