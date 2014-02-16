@@ -20,9 +20,11 @@ package org.datahack.parkingdb;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -36,12 +38,12 @@ public class ParkingStreet implements Serializable {
     @Id
     private int id;
     
-    
+    @Column
     private int uSRN;
-    
+    @Column
     private String streetName;
     
-    @OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     private ParkingZone parkingZone;
 
     /**

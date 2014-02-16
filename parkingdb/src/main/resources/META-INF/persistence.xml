@@ -14,6 +14,7 @@
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="parkingadmin"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.weaving" value="static"/>
     </properties>
   </persistence-unit>
 </persistence>

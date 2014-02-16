@@ -193,8 +193,8 @@ public class BayEventTest {
        
         em.getTransaction().begin();
         
-        //em.remove(find);
-        //em.remove(find1);
+        em.remove(find);
+        em.remove(find1);
         em.getTransaction().commit();
          
     }
