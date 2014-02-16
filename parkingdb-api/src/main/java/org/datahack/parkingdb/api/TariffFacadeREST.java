@@ -28,8 +28,8 @@ import org.datahack.parkingdb.Tariff;
 @Stateless
 @Path("tariff")
 public class TariffFacadeREST extends AbstractFacade<Tariff> {
-    @PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em;// = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
+    //@PersistenceContext(unitName = "PARKING_PU")
+    private EntityManager em= Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
 
     public TariffFacadeREST() {
         super(Tariff.class);

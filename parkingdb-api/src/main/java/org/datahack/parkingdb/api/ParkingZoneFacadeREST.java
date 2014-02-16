@@ -28,8 +28,8 @@ import org.datahack.parkingdb.ParkingZone;
 @Stateless
 @Path("parkingzone")
 public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
-    @PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em;// = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
+    //@PersistenceContext(unitName = "PARKING_PU")
+    private EntityManager em = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
 
     public ParkingZoneFacadeREST() {
         super(ParkingZone.class);

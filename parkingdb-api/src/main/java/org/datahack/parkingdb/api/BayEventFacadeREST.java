@@ -28,8 +28,8 @@ import org.datahack.parkingdb.BayEvent;
 @Stateless
 @Path("bayevent")
 public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
-    @PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em;// = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
+    //@PersistenceContext(unitName = "PARKING_PU")
+    private EntityManager em= Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
 
     public BayEventFacadeREST() {
         super(BayEvent.class);
