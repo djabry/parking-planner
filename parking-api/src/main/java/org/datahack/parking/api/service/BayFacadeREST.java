@@ -64,7 +64,7 @@ public class BayFacadeREST extends AbstractFacade<Bay> {
 
     @GET
     @Override
-    @Produces({"application/json"})
+    @Produces({"application/xml", "application/json"})
     public List<Bay> findAll() {
         return super.findAll();
     }
