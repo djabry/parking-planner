@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -20,8 +21,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import org.datahack.parkingdb.Bay;
-import org.datahack.parkingdb.ParkingDBUtils;
 import org.datahack.parkingdb.ParkingZone;
 
 /**
@@ -31,8 +30,8 @@ import org.datahack.parkingdb.ParkingZone;
 @Stateless
 @Path("parkingzone")
 public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
-    //@PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em= ParkingDBUtils.getEntityManager();
+    @PersistenceContext(unitName = "PARKING_PU")
+    private EntityManager em;//= ParkingDBUtils.getEntityManager();
 
     public ParkingZoneFacadeREST() {
         super(ParkingZone.class);
@@ -93,7 +92,7 @@ public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
 
         String qString = "SELECT * FROM PARKINGZONE b WHERE b.latitude>='"+lat1+"' AND b.latitude<='"+lat2+"' AND b.longitude>='"+lon1+"' AND b.longitude<='"+lon2+"'";
         
-        TypedQuery<ParkingZone> q = em.createQuery(qString,ParkingZone.class);
+        Query q = em.createNativeQuery(qString,ParkingZone.class);
         
         List<ParkingZone> pZ = q.getResultList();
         
@@ -107,7 +106,7 @@ public class ParkingZoneFacadeREST extends AbstractFacade<ParkingZone> {
     public List<ParkingZone> testCase() {
 
         //return this.findAll();
-        return this.findInBox(50.0, 52.0, -10.0, 10.0);
+        return this.findInBox(50.0, -2.0, 52.0, 2.0);
         
     }
 

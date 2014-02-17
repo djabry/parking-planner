@@ -27,7 +27,8 @@ import org.junit.Test;
  * @author djabry
  */
 public class BayEventTest {
-    @PersistenceContext(unitName = "PARKING_PU")
+    //@PersistenceContext(unitName = "PARKING_TEST_PU")
+    
     private EntityManager em;
     
     public BayEventTest() {
@@ -147,7 +148,7 @@ public class BayEventTest {
     public void testSetNumSPaces() {
          System.out.println("setNumSPaces");
        
-        em = ParkingDBUtils.getEntityManager();
+        em = Persistence.createEntityManagerFactory("PARKING_TEST_PU").createEntityManager();
          Bay testBay  = new Bay();
          testBay.setId(Integer.MAX_VALUE);
 

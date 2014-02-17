@@ -29,6 +29,7 @@ import org.datahack.parkingdb.Bay;
 import org.datahack.parkingdb.BayEvent;
 import org.datahack.parkingdb.ParkingStreet;
 import org.datahack.parkingdb.ParkingZone;
+import org.datahack.parkingdb.connector.ParkingDBConnector;
 
 /**
  *
@@ -38,8 +39,8 @@ public class UploadTables {
 
     public static void main(String[] args) {
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PARKING_PU");
-        EntityManager em = emf.createEntityManager();
+        
+        EntityManager em = ParkingDBConnector.getEntityManager();
         
         
         

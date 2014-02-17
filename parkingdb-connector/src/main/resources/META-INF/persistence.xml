@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="PARKING_CONNECTOR_PU">
+    <class>org.datahack.parkingdb.Bay</class>
+    <class>org.datahack.parkingdb.BayEvent</class>
+    <class>org.datahack.parkingdb.ParkingStreet</class>
+    <class>org.datahack.parkingdb.ParkingZone</class>
+    <class>org.datahack.parkingdb.Tariff</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://parkingdata.chwiixytzmrn.eu-west-1.rds.amazonaws.com:3306/parkingdb?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.password" value="parking"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="parkingadmin"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

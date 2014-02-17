@@ -9,6 +9,8 @@ package org.datahack.parkingdb.api;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,7 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.datahack.parkingdb.Bay;
-import org.datahack.parkingdb.ParkingDBUtils;
+
 
 /**
  *
@@ -28,8 +30,8 @@ import org.datahack.parkingdb.ParkingDBUtils;
 @Stateless
 @Path("bay")
 public class BayFacadeREST extends AbstractFacade<Bay> {
-    //@PersistenceContext(unitName = "PARKING_PU")
-    private EntityManager em=ParkingDBUtils.getEntityManager();
+    @PersistenceContext(unitName = "PARKING_PU")
+    private EntityManager em;//=ParkingDBUtils.getEntityManager();
 
     public BayFacadeREST() {
         super(Bay.class);
@@ -97,7 +99,7 @@ public class BayFacadeREST extends AbstractFacade<Bay> {
 
         String qString = "SELECT * FROM BAY b WHERE b.latitude>="+lat1+" AND b.latitude<="+lat2+" AND b.longitude>="+lon1+" AND b.longitude<="+lon2;
         
-        TypedQuery<Bay> q = em.createQuery(qString,Bay.class);
+        Query q = em.createNativeQuery(qString,Bay.class);
         
         List<Bay> bays = q.getResultList();
         
@@ -111,8 +113,7 @@ public class BayFacadeREST extends AbstractFacade<Bay> {
     @Produces({"application/xml", "application/json"})
     public List<Bay> testCase() {
 
-        return this.findAll();
-        //return this.findInBox(50.0, 52.0, -10.0, 10.0);
+        return this.findInBox(50.0,-2.0, 52.0, 2.0);
         
     }
 

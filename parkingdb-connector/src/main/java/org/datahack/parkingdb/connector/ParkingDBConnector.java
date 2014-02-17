@@ -4,20 +4,21 @@
  * and open the template in the editor.
  */
 
-package org.datahack.parkingdb;
+package org.datahack.parkingdb.connector;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
  *
  * @author djabry
  */
-public class ParkingDBUtils {
-    
-    private static final EntityManager em = Persistence.createEntityManagerFactory("PARKING_PU").createEntityManager();
+public class ParkingDBConnector {
     
     public static EntityManager getEntityManager(){
-        return em;
+        EntityManagerFactory eF = Persistence.createEntityManagerFactory("PARKING_CONNECTOR_PU");
+        return eF.createEntityManager();
     }
+    
 }
