@@ -93,7 +93,7 @@ Access to bay event information
 
 ## New bay event [/bayevent/create{?bayId,eventTime,estimatedSpaces}]
 + Parameters
-    + eventTime (required, string, `2013-05-16T14:00:00`) ... Event time.
+    + eventTime (required, string, `2013-05-16T14:00:00`) ... Event time in format: yyyy-MM-ddTHH:mm:ss
     + bayId (required, number, `100`) ... Bay id.
     + estimatedSpaces (required, number, `12.5`) ... Estimated number of spaces.
 
@@ -109,9 +109,9 @@ Access to bay event information
 ## Bay events list [/bayevent{?bayId,minTime,maxTime}]
 
 + Parameters
-    + bayId (required, number, `1`) ... Bay Id.
-    + minTime (optional, timestamp, `2013-05-16T14:00:00`) ... Start of time range.
-    + maxTime (optional, timestamp, `2013-05-17T14:00:00`) ... End of time range.
+    + bayId (required, number, `100`) ... Bay Id.
+    + minTime (optional, string, `2013-05-16T14:00:00`) ... Start of time range.
+    + maxTime (optional, string, `2013-05-17T14:00:00`) ... End of time range.
 
 ### List all bay events filtered by bay and time [GET]
 + Response 200 (application/xml, application/json)
@@ -127,7 +127,7 @@ Access to bay event information
 A single event with its details
 
 + Parameters
-    + id (required, number, `102`) ... Numeric `id` of the bay event.
+    + id (required, number, `100`) ... Numeric `id` of the bay event.
 
 ### Retrieve a bay event [GET]
 + Response 200 (application/json)
