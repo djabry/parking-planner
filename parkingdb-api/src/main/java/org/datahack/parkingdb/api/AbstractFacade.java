@@ -6,7 +6,13 @@
 
 package org.datahack.parkingdb.api;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -59,6 +65,34 @@ public abstract class AbstractFacade<T> {
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
+    }
+    
+    private static final SimpleDateFormat DF;
+    
+    static{
+        String format  = "yyyy-MM-dd-HH:mm:ss";
+        
+        //"2013-05-16T14:00:00"
+        DF = new SimpleDateFormat(format);
+        //DF.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
+    }
+    
+    public SimpleDateFormat getDateFormat(){
+        return DF;
+    }
+    
+    public Date convertToDate(String timeString){
+        
+        timeString = timeString.replace("T", "-");
+        
+        try {
+            return this.getDateFormat().parse(timeString);
+        } catch (ParseException ex) {
+            Logger.getLogger(AbstractFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+        
     }
     
 }

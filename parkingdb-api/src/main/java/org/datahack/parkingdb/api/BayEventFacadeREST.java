@@ -8,9 +8,12 @@ package org.datahack.parkingdb.api;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -107,8 +110,8 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     @Produces({"application/json"})
     public List<BayEvent> find(
             @QueryParam("bayId") Integer bayId,
-            @QueryParam("minTime") Date minTime,
-            @QueryParam("maxTime") Date maxTime) {
+            @QueryParam("minTime") String minTimeString,
+            @QueryParam("maxTime") String maxTimeString) {
 
         if (bayId != null) {
             CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
@@ -120,13 +123,31 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
 
             predicates.add(cb.equal((bE.get(BayEvent_.bay)).get(Bay_.id), bayId));
 
-            if (minTime != null) {
-                predicates.add(cb.greaterThanOrEqualTo(bE.get(BayEvent_.eventTime), minTime));
+            if (minTimeString != null) {
+               
+
+                    Date minTime = this.convertToDate(minTimeString);
+                    
+                    if(minTime!=null){
+                        predicates.add(cb.greaterThanOrEqualTo(bE.get(BayEvent_.eventTime), minTime));
+                    }
+                    
+                
+                
 
             }
 
-            if (maxTime != null) {
-                predicates.add(cb.lessThanOrEqualTo(bE.get(BayEvent_.eventTime), maxTime));
+            if (maxTimeString != null) {
+                
+               
+                    Date maxTime = this.convertToDate(maxTimeString);
+                    
+                    if(maxTime!=null){
+                        predicates.add(cb.lessThanOrEqualTo(bE.get(BayEvent_.eventTime), maxTime));
+                    }
+                    
+
+                
             }
 
             Predicate[] arr = Iterables.toArray(predicates, Predicate.class);
@@ -205,8 +226,14 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     @Path(value = "predict")
     @Produces(value = {"application/json"})
     @Asynchronous
-    public void predict(@Suspended final AsyncResponse asyncResponse, @QueryParam(value = "bayId") final Integer bayId, @QueryParam(value = "eventTime") final Date eventTime) {
-        asyncResponse.resume(doPredict(bayId, eventTime));
+    public void predict(@Suspended final AsyncResponse asyncResponse, @QueryParam(value = "bayId") final Integer bayId, @QueryParam(value = "eventTime") final String eventTimeString) {
+        try {
+            Date eventTime = this.getDateFormat().parse(eventTimeString);
+            asyncResponse.resume(doPredict(bayId, eventTime));
+        } catch (ParseException ex) {
+            Logger.getLogger(BayEventFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     private Prediction doPredict(@QueryParam("bayId") Integer bayId, @QueryParam("eventTime") Date eventTime) {
