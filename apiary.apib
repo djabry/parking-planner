@@ -7,13 +7,13 @@ This API gives access to Westminster council parking data including information 
 # Group Bays
 Access to bay information
 
-## Bays list [/bay{?parkingZoneId, totalSpaces, minLat, minLon, maxLat, maxLon}]
+## Bays list [/bay{?parkingZoneId,totalSpaces,minLat,minLon,maxLat,maxLon}]
 
 + Parameters
-    + parkingZoneId (optional, number, `1`) ... Numeric id of the parking zone.
+    + parkingZoneId (optional, number, `10`) ... Numeric id of the parking zone.
     + totalSpaces (optional, number, `10`) ... Total number of spaces in bay.
-    + minLat (optional, number, `51.0`) ... Minimum latitude of bay.
-    + minLon (optional, number, `-0.1`) ... Minimum longitude of bay.
+    + minLat (optional, number, `50.0`) ... Minimum latitude of bay.
+    + minLon (optional, number, `-0.2`) ... Minimum longitude of bay.
     + maxLat (optional, number, `51.5`) ... Maximum latitude of bay.
     + maxLon (optional, number, `0.1`) ... Maximum longitude of bay.
 
@@ -50,11 +50,11 @@ Count number of bays
 # Group Parking Zones
 Access to parking zone information
 
-## Parking zones list [/parkingzone{?minLat, minLon, maxLat, maxLon}]
+## Parking zones list [/parkingzone{?minLat,minLon,maxLat,maxLon}]
 
 + Parameters
     + minLat (optional, number, `51.0`) ... Minimum latitude of parking zone.
-    + minLon (optional, number, `-0.1`) ... Minimum longitude of parking zone.
+    + minLon (optional, number, `-0.2`) ... Minimum longitude of parking zone.
     + maxLat (optional, number, `51.5`) ... Maximum latitude of parking zone.
     + maxLon (optional, number, `0.1`) ... Maximum longitude of parking zone.
 
@@ -91,7 +91,7 @@ Count number of parking zones
 # Group Bay Events
 Access to bay event information
 
-## New bay event [/bayevent/create{?bayId, eventTime, estimatedSpaces}]
+## New bay event [/bayevent/create{?bayId,eventTime,estimatedSpaces}]
 + Parameters
     + eventTime (required, string, `2013-05-16T14:00:00`) ... Event time.
     + bayId (required, number, `100`) ... Bay id.
@@ -106,12 +106,12 @@ Access to bay event information
 
     
 
-## Bay events list [/bayevent{?bayId, minTime, maxTime}]
+## Bay events list [/bayevent{?bayId,minTime,maxTime}]
 
 + Parameters
     + bayId (required, number, `1`) ... Bay Id.
-    + minTime (optional, string, `2013-05-16T14:00:00`) ... Start of time range.
-    + maxTime (optional, string, `2013-05-17T14:00:00`) ... End of time range.
+    + minTime (optional, timestamp, `2013-05-16T14:00:00`) ... Start of time range.
+    + maxTime (optional, timestamp, `2013-05-17T14:00:00`) ... End of time range.
 
 ### List all bay events filtered by bay and time [GET]
 + Response 200 (application/xml, application/json)
