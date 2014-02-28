@@ -62,11 +62,15 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     @Consumes({"application/json", "application/xml"})
     public BayEvent createNewBayEvent(
             @QueryParam("bayId") Integer bayId,
-            @QueryParam("eventTime") Date eventTime,
+            @QueryParam("eventTime") String eventTimeString,
             @QueryParam("estimatedSpaces") Double estimatedSpaces) {
 
         BayEvent entity = new BayEvent();
-
+        Date eventTime =null;
+        if(eventTimeString!=null){
+            eventTime = this.convertToDate(eventTimeString);
+        }
+        
         if (bayId != null && eventTime != null && estimatedSpaces != null) {
 
             Bay b = this.getEntityManager().find(Bay.class, bayId);
@@ -86,12 +90,12 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
         return entity;
     }
 
-    @PUT
-    @Path("{id}")
-    @Consumes({"application/json", "application/xml"})
-    public void edit(@PathParam("id") Long id, BayEvent entity) {
-        super.edit(entity);
-    }
+//    @PUT
+//    @Path("{id}")
+//    @Consumes({"application/json", "application/xml"})
+//    public void edit(@PathParam("id") Long id, BayEvent entity) {
+//        super.edit(entity);
+//    }
 
     @DELETE
     @Path("{id}")
@@ -227,12 +231,10 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     @Produces(value = {"application/json"})
     @Asynchronous
     public void predict(@Suspended final AsyncResponse asyncResponse, @QueryParam(value = "bayId") final Integer bayId, @QueryParam(value = "eventTime") final String eventTimeString) {
-        try {
-            Date eventTime = this.getDateFormat().parse(eventTimeString);
+        
+            Date eventTime = this.convertToDate(eventTimeString);
             asyncResponse.resume(doPredict(bayId, eventTime));
-        } catch (ParseException ex) {
-            Logger.getLogger(BayEventFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         
     }
 
