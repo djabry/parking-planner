@@ -229,18 +229,18 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     @GET
     @Path(value = "predict")
     @Produces(value = {"application/json"})
-    @Asynchronous
-    public void predict(@Suspended final AsyncResponse asyncResponse, @QueryParam(value = "bayId") final Integer bayId, @QueryParam(value = "eventTime") final String eventTimeString) {
+    public Prediction predict(
+            @QueryParam(value = "bayId") Integer bayId, 
+            @QueryParam(value = "eventTime") String eventTimeString) {
         
             Date eventTime = this.convertToDate(eventTimeString);
-            asyncResponse.resume(doPredict(bayId, eventTime));
+            Double prediction = 0.0;
+            return new Prediction(bayId, eventTime, prediction, 100.0);
+
         
         
     }
 
-    private Prediction doPredict(@QueryParam("bayId") Integer bayId, @QueryParam("eventTime") Date eventTime) {
-        Double prediction = 0.0;
-        return new Prediction(bayId, eventTime, prediction, 100.0);
-    }
+   
 
 }
