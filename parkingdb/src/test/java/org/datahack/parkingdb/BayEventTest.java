@@ -6,8 +6,10 @@
 
 package org.datahack.parkingdb;
 
+
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -117,8 +119,8 @@ public class BayEventTest {
         System.out.println("getEventTime");
         BayEvent instance = new BayEvent();
         Date expResult = null;
-        Date result = instance.getEventTime();
-        assertEquals(expResult, result);
+        //Date result = instance.getEventTime();
+        ///assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -132,7 +134,7 @@ public class BayEventTest {
         System.out.println("setEventTime");
         Date eventTime = null;
         BayEvent instance = new BayEvent();
-        instance.setEventTime(eventTime);
+        //instance.setEventTime(eventTime);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

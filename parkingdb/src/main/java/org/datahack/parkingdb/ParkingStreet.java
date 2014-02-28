@@ -27,6 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -45,6 +46,20 @@ public class ParkingStreet implements Serializable {
     
     @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     private ParkingZone parkingZone;
+    
+     public int getParkingZoneId(){
+        int pId = -1;
+        ParkingZone pZ = this.getParkingZone();
+        if(pZ!=null){
+            pId = pZ.getId();
+        }
+        
+        return pId;
+    }
+    
+    public void setParkingZoneId(int id){
+        
+    }
 
     /**
      * @return the id
@@ -91,6 +106,7 @@ public class ParkingStreet implements Serializable {
     /**
      * @return the zone
      */
+    @XmlTransient
     public ParkingZone getParkingZone() {
         return parkingZone;
     }

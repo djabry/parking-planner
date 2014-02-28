@@ -12,7 +12,7 @@
         <module>weka-timeseriesforecasting</module>
         <module>forecast</module>
         <module>parkingdb-connector</module>
-    </modules>
+  </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

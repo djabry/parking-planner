@@ -19,6 +19,7 @@
 package org.datahack.parkingdb;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,6 +32,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,9 +56,25 @@ public class BayEvent implements Serializable {
     @Column
     private double estimatedSpaces;
     
+    @XmlTransient
     public Bay getBay(){
         return bay;
     }
+    
+    public int getBayId(){
+        Bay b = this.getBay();
+        if(b!=null){
+            return b.getId();
+        }
+        
+        return -1;
+    }
+    
+    public void setBayId(int id){
+        
+    }
+    
+   
 
     /**
      * @return the id
@@ -103,7 +121,7 @@ public class BayEvent implements Serializable {
     /**
      * @param estimatedSPaces the estimatedSPaces to set
      */
-    public void setEstimatedSPaces(double estimatedSPaces) {
+    public void setEstimatedSpaces(double estimatedSPaces) {
         this.estimatedSpaces = estimatedSPaces;
     }
 

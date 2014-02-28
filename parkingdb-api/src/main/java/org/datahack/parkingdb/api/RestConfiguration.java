@@ -13,7 +13,7 @@ import javax.ws.rs.core.Application;
  *
  * @author djabry
  */
-@ApplicationPath("resources")
+@ApplicationPath("v1")
 public class RestConfiguration extends Application {
     
 }

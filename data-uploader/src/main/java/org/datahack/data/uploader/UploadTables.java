@@ -22,8 +22,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import org.apache.commons.io.FileUtils;
 import org.datahack.parkingdb.Bay;
 import org.datahack.parkingdb.BayEvent;
@@ -85,11 +83,11 @@ public class UploadTables {
                         }
 
                         pS.setParkingZone(pZ);
-                        em.persist(pS);
+                        em.merge(pS);
                         
                             
                         }catch(NumberFormatException e){
-                            System.out.println("Failed to persist row "+row);
+                            System.out.println("Failed to merge row "+row);
                         }
                         
                         if(row%1000==0){
@@ -162,8 +160,9 @@ public class UploadTables {
                                 if(pZ!=null){
                                     Set<Bay> bays = pZ.getBays();
                                     
-                                    if(bays!=null){
+                                    if(bays==null){
                                         bays = new LinkedHashSet();
+                                        pZ.setBays(bays);
                                     }
                                     
                                     bays.add(b);
@@ -195,11 +194,11 @@ public class UploadTables {
                         
                         
                         
-                        em.persist(b);
+                        em.merge(b);
                         
                             
                         }catch(NumberFormatException e){
-                            System.out.println("Failed to persist row "+row);
+                            System.out.println("Failed to merge row "+row);
                         }
                         
                         if(row%1000==0){
@@ -267,12 +266,12 @@ public class UploadTables {
 
                         bE.setEventTime(d);
                         
-                        bE.setEstimatedSPaces(estimatedSpaces);
+                        bE.setEstimatedSpaces(estimatedSpaces);
                         
-                        em.persist(bE);
+                        em.merge(bE);
                           
                         }catch(NumberFormatException e){
-                            System.out.println("Failed to persist row "+row);
+                            System.out.println("Failed to merge row "+row);
                         } catch (ParseException ex) {
                             Logger.getLogger(UploadTables.class.getName()).log(Level.SEVERE, null, ex);
                         }

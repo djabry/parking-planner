@@ -14,6 +14,12 @@
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="parkingadmin"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.weaving.lazy" value="true"/>
+      <property name="eclipselink.weaving" value="static"/>
+      <property name="eclipselink.weaving.changetracking" value="true"/>
+      <property name="eclipselink.weaving.internal" value="true"/>
+      <property name="eclipselink.weaving.eager" value="true"/>
+      <property name="eclipselink.weaving.fetchgroups" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>

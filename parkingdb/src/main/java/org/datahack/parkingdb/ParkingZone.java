@@ -21,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,9 +33,8 @@ public class ParkingZone implements Location, Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
+
     
-
-
     @OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     private Set<Bay> bays;
     
@@ -61,6 +61,7 @@ public class ParkingZone implements Location, Serializable{
     /**
      * @return the bays
      */
+    @XmlTransient
     public Set<Bay> getBays() {
         return bays;
     }
@@ -71,6 +72,8 @@ public class ParkingZone implements Location, Serializable{
     public void setBays(Set<Bay> bays) {
         this.bays = bays;
     }
+    
+    
 
     /**
      * @return the latitude

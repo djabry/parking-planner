@@ -9,11 +9,11 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-
 import weka.classifiers.evaluation.NumericPrediction;
 import weka.classifiers.functions.GaussianProcesses;
 import weka.classifiers.timeseries.WekaForecaster;
 import weka.core.Instances;
+import weka.experiment.InstanceQuery;
 
 /**
  * Example of using the time series forecasting API. To compile and
@@ -41,7 +41,10 @@ public class BayExample {
 
       // load the wine data
       Instances wine = new Instances(new BufferedReader(new FileReader(pathToWineData)));
-
+      
+      InstanceQuery q = new InstanceQuery();
+      
+      
       // new forecaster
       WekaForecaster forecaster = new WekaForecaster();
 
@@ -52,7 +55,7 @@ public class BayExample {
       // default underlying classifier is SMOreg (SVM) - we'll use
       // gaussian processes for regression instead
       forecaster.setBaseForecaster(new GaussianProcesses());
-
+      
       forecaster.getTSLagMaker().setTimeStampField("Date"); // date time stamp
       forecaster.getTSLagMaker().setMinLag(1);
       forecaster.getTSLagMaker().setMaxLag(12); // monthly data

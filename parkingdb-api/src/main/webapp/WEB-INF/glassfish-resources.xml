@@ -12,3 +12,4 @@
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/jdbc/parking" object-type="user" pool-name="parking_pool"/>
 </resources>
+

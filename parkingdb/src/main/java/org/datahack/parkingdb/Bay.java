@@ -32,6 +32,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -45,8 +46,10 @@ public class Bay implements Location, Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
+   
     @ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
     private ParkingZone parkingZone;
+
     @Column
     private double longitude;
     @Column
@@ -54,9 +57,25 @@ public class Bay implements Location, Serializable{
     @Column
     private int totalSpaces;
     
+    @XmlTransient
     public ParkingZone getParkingZone(){
         return parkingZone; 
     }
+    
+    public int getParkingZoneId(){
+        int pId = -1;
+        ParkingZone pZ = this.getParkingZone();
+        if(pZ!=null){
+            pId = pZ.getId();
+        }
+        
+        return pId;
+    }
+    
+    public void setParkingZoneId(int id){
+        
+    }
+    
 
     @Override
     public double getLatitude() {
