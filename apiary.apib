@@ -1,0 +1,161 @@
+FORMAT: 1A
+HOST: http://parking-planner.dcaravana.eu.cloudbees.net/v1
+
+# Parking Planner API
+This API gives access to Westminster council parking data including information about bays, parking zones and utilisation. 
+
+# Group Bays
+Access to bay information
+
+## Bays list [/bay{?parkingZoneId, totalSpaces, minLat, minLon, maxLat, maxLon}]
+
++ Parameters
+    + parkingZoneId (optional, number, `1`) ... Numeric id of the parking zone.
+    + totalSpaces (optional, number, `10`) ... Total number of spaces in bay.
+    + minLat (optional, number, `51.0`) ... Minimum latitude of bay.
+    + minLon (optional, number, `-0.1`) ... Minimum longitude of bay.
+    + maxLat (optional, number, `51.5`) ... Maximum latitude of bay.
+    + maxLon (optional, number, `0.1`) ... Maximum longitude of bay.
+
+### List of bays filtered by parking zone and total number of spaces [GET]
++ Response 200 (application/json)
+
+        [{
+            "id":3,"latitude":51.52479868,"longitude":-0.20160305,"parkingZoneId":30,"totalSpaces":3
+        },{
+            "id":4,"latitude":51.53356609,"longitude":-0.17249056,"parkingZoneId":29,"totalSpaces":8
+        }]
+
+## Bay [/bay/{id}]
+A single bay with all its details
+
++ Parameters
+    + id (required, number, `3`) ... Numeric `id` of the bay.
+
+### Get Bay Information [GET]
++ Response 200 (application/json)
+
+            {"id":3,"latitude":51.52479868,"longitude":-0.20160305,"parkingZoneId":30,"totalSpaces":3}
+            
+
+## Bay count [/bay/count]
+Count number of bays
+
+### Get number of bays [GET]
++ Response 200 (text/plain)
+
+            1379
+
+
+# Group Parking Zones
+Access to parking zone information
+
+## Parking zones list [/parkingzone{?minLat, minLon, maxLat, maxLon}]
+
++ Parameters
+    + minLat (optional, number, `51.0`) ... Minimum latitude of parking zone.
+    + minLon (optional, number, `-0.1`) ... Minimum longitude of parking zone.
+    + maxLat (optional, number, `51.5`) ... Maximum latitude of parking zone.
+    + maxLon (optional, number, `0.1`) ... Maximum longitude of parking zone.
+
+### List all parking zones filtered by location [GET]
++ Response 200 (application/json)
+            
+            [{
+                "id":2,"latitude":51.49007091662338,"longitude":-0.14126169662337668
+            },{
+                "id":3,"latitude":51.496135741521734,"longitude":-0.15176689336956517
+            }]
+   
+
+## Parking Zone [/parkingzone/{id}]
+A single zone with all its details
+
++ Parameters
+    + id (required, number, `2`) ... Numeric `id` of the parking zone.
+
+### Retrieve a parking zone [GET]
++ Response 200 (application/json)
+
+            {"id":2,"latitude":51.49007091662338,"longitude":-0.14126169662337668}
+            
+## Parking zone count [/parkingzone/count]
+Count number of parking zones
+
+### Get number of parking zones [GET]
++ Response 200 (text/plain)
+
+            50
+            
+
+# Group Bay Events
+Access to bay event information
+
+## New bay event [/bayevent/create{?bayId, eventTime, estimatedSpaces}]
++ Parameters
+    + eventTime (required, string, `2013-05-16T14:00:00`) ... Event time.
+    + bayId (required, number, `100`) ... Bay id.
+    + estimatedSpaces (required, number, `12.5`) ... Estimated number of spaces.
+
+### Register a new bay event [POST]
+
+
++ Response 200 (application/json)
+    
+        {"bayId":100,"estimatedSpaces":8.06666666666667,"eventTime":"2013-05-16T14:00:00","id":102}
+
+    
+
+## Bay events list [/bayevent{?bayId, minTime, maxTime}]
+
++ Parameters
+    + bayId (required, number, `1`) ... Bay Id.
+    + minTime (optional, string, `2013-05-16T14:00:00`) ... Start of time range.
+    + maxTime (optional, string, `2013-05-17T14:00:00`) ... End of time range.
+
+### List all bay events filtered by bay and time [GET]
++ Response 200 (application/xml, application/json)
+            
+            [{
+                "bayId":100,"estimatedSpaces":8.06666666666667,"eventTime":"2013-05-16T14:00:00","id":102
+            },{
+                "bayId":100,"estimatedSpaces":8.93333333333333,"eventTime":"2013-05-16T15:00:00","id":103
+            }]
+   
+
+## Bay event [/bayevent/{id}]
+A single event with its details
+
++ Parameters
+    + id (required, number, `102`) ... Numeric `id` of the bay event.
+
+### Retrieve a bay event [GET]
++ Response 200 (application/json)
+
+            { "bayId":100,"estimatedSpaces":8.06666666666667,"eventTime":"2013-05-16T14:00:00","id":102}
+            
+### Delete a bay event [DELETE]
++ Response 200 (text/plain)
+
+        "OK"
+            
+## Bay event count [/bayevent/count]
+Count number of bay events
+
+### Get number of bay events [GET]
++ Response 200 (text/plain)
+
+            824784
+            
+## Space prediction [/bayevent/predict{?bayId,eventTime}]
+Predict number of estimated spaces, this has not been implemented yet!!!
++ Parameters
+    + eventTime (required, string, `2013-05-18T14:00:00`) ... Event time.
+    + bayId (required, number, `100`) ... Bay id.
+
+### Get number of bay events [GET]
++ Response 200 (application/json)
+
+            { "bayId":100,"estimatedSpaces":8.06666666666667,"eventTime":"2013-05-18T14:00:00","value":9.7,"error":2.0}
+
+
