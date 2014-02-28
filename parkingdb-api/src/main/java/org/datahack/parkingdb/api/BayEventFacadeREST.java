@@ -6,6 +6,7 @@
 package org.datahack.parkingdb.api;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +54,6 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
         super(BayEvent.class);
     }
 
-    
     @POST
     @Path("create")
     @Consumes({"application/json", "application/xml"})
@@ -61,26 +61,25 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
             @QueryParam("bayId") Integer bayId,
             @QueryParam("eventTime") Date eventTime,
             @QueryParam("estimatedSpaces") Double estimatedSpaces) {
-        
+
         BayEvent entity = new BayEvent();
-        
-        if(bayId!=null&&eventTime!=null&&estimatedSpaces!=null){
-            
+
+        if (bayId != null && eventTime != null && estimatedSpaces != null) {
+
             Bay b = this.getEntityManager().find(Bay.class, bayId);
-            
-            if(b!=null){
-                
+
+            if (b != null) {
+
                 entity.setBay(b);
-                
-                
+
                 entity.setEstimatedSpaces(estimatedSpaces);
                 entity.setEventTime(eventTime);
-                
+
                 super.create(entity);
             }
-            
+
         }
-        
+
         return entity;
     }
 
@@ -104,8 +103,6 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
         return super.find(id);
     }
 
-    
-
     @GET
     @Produces({"application/json"})
     public List<BayEvent> find(
@@ -113,45 +110,49 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
             @QueryParam("minTime") Date minTime,
             @QueryParam("maxTime") Date maxTime) {
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+        if (bayId != null) {
+            CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
 
-        CriteriaQuery<BayEvent> q = cb.createQuery(BayEvent.class);
-        Root<BayEvent> bE = q.from(BayEvent.class);
+            CriteriaQuery<BayEvent> q = cb.createQuery(BayEvent.class);
+            Root<BayEvent> bE = q.from(BayEvent.class);
 
-        List<Predicate> predicates = new ArrayList();
+            List<Predicate> predicates = new ArrayList();
 
-        predicates.add(cb.equal((bE.get(BayEvent_.bay)).get(Bay_.id), bayId));
+            predicates.add(cb.equal((bE.get(BayEvent_.bay)).get(Bay_.id), bayId));
 
-        if (minTime != null) {
-            predicates.add(cb.greaterThanOrEqualTo(bE.get(BayEvent_.eventTime), minTime));
+            if (minTime != null) {
+                predicates.add(cb.greaterThanOrEqualTo(bE.get(BayEvent_.eventTime), minTime));
+
+            }
+
+            if (maxTime != null) {
+                predicates.add(cb.lessThanOrEqualTo(bE.get(BayEvent_.eventTime), maxTime));
+            }
+
+            Predicate[] arr = Iterables.toArray(predicates, Predicate.class);
+            q = q.where(arr);
+
+            TypedQuery<BayEvent> pzQuery = em.createQuery(q);
+
+            return pzQuery.getResultList();
 
         }
-
-        if (maxTime != null) {
-            predicates.add(cb.lessThanOrEqualTo(bE.get(BayEvent_.eventTime), maxTime));
-        }
-
-        Predicate[] arr = Iterables.toArray(predicates, Predicate.class);
-        q = q.where(arr);
-
-        TypedQuery<BayEvent> pzQuery = em.createQuery(q);
-
-        return pzQuery.getResultList();
+        return Lists.newArrayList();
 
     }
-    
-    class Prediction{
-        
+
+    class Prediction {
+
         private final Integer bayId;
         private final Date eventTime;
         private final Double value;
         private final Double error;
-        
-        public Prediction(Integer bayId, Date eventTime, Double value,Double error){
-            this.bayId=bayId;
-            this.eventTime=eventTime;
-            this.value=value;
-            this.error=error;
+
+        public Prediction(Integer bayId, Date eventTime, Double value, Double error) {
+            this.bayId = bayId;
+            this.eventTime = eventTime;
+            this.value = value;
+            this.error = error;
         }
 
         /**
@@ -161,8 +162,6 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
             return bayId;
         }
 
-       
-
         /**
          * @return the eventTime
          */
@@ -170,23 +169,18 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
             return eventTime;
         }
 
-       
         /**
          * @return the value
          */
         public Double getValue() {
             return value;
         }
-        
-        public Double getError(){
+
+        public Double getError() {
             return error;
         }
 
-       
     }
-    
-
-    
 
     @GET
     @Path("{from}/{to}")
@@ -217,7 +211,7 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
 
     private Prediction doPredict(@QueryParam("bayId") Integer bayId, @QueryParam("eventTime") Date eventTime) {
         Double prediction = 0.0;
-        return new Prediction(bayId, eventTime,prediction,100.0);
+        return new Prediction(bayId, eventTime, prediction, 100.0);
     }
 
 }
