@@ -7,36 +7,27 @@ package org.datahack.parkingdb.api;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import java.sql.Timestamp;
-import java.text.ParseException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.container.AsyncResponse;
-import javax.ws.rs.container.Suspended;
 import org.datahack.parkingdb.Bay;
 import org.datahack.parkingdb.BayEvent;
 import org.datahack.parkingdb.BayEvent_;
@@ -48,7 +39,7 @@ import org.datahack.parkingdb.Bay_;
  */
 @Stateless
 @Path("bayevent")
-public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
+public class BayEventFacadeREST extends AbstractFacade<BayEvent> implements Serializable {
 
     @PersistenceContext(unitName = "PARKING_PU")
     private EntityManager em; //=ParkingDBUtils.getEntityManager();
@@ -166,7 +157,8 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
 
     }
 
-    class Prediction {
+    @Entity
+    public class Prediction {
 
         private final Integer bayId;
         private final Date eventTime;
@@ -227,18 +219,22 @@ public class BayEventFacadeREST extends AbstractFacade<BayEvent> {
     }
 
     @GET
-    @Path(value = "predict")
-    @Produces(value = {"application/json"})
-    public Prediction predict(
-            @QueryParam(value = "bayId") Integer bayId, 
-            @QueryParam(value = "eventTime") String eventTimeString) {
+    @Path("predict")
+    @Produces({"application/json"})
+    public BayEvent predict(
+            @QueryParam("bayId") Integer bayId, 
+            @QueryParam("eventTime") String eventTimeString) {
         
             Date eventTime = this.convertToDate(eventTimeString);
             Double prediction = 0.0;
-            return new Prediction(bayId, eventTime, prediction, 100.0);
-
-        
-        
+            Bay find = getEntityManager().find(Bay.class, bayId);
+            BayEvent bE = new BayEvent();
+            bE.setBay(find);
+            bE.setEstimatedSpaces(prediction);
+            bE.setEventTime(eventTime);
+            bE.setId(1000L);
+            
+            return bE;
     }
 
    
